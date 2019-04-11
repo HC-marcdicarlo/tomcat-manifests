@@ -1,0 +1,38 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: tomcat-dep
+  namespace: default
+  labels:
+    app: tomcat
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      creationTimestamp:
+      labels:
+        app: tomcat
+    spec:
+      volumes:
+        - name: tomcat-nfs
+          persistentVolumeClaim:
+            claimName: tomcat-claim
+      containers:
+        - name: tomcat
+          image: tomcat:7-jre7
+          command: ["/bin/sh", "-c"]
+          args:
+            - /bin/mkdir -p /usr/local/tomcat;
+              /usr/local/tomcat/bin/catalina.sh run;
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: tomcat-nfs
+              mountPath: "/usr/local/tomcat/webapps"

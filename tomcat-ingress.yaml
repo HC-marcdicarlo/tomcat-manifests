@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tomcat-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: myapp.harlandclarke.local
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: tomcat-dep
+              servicePort: 8080
