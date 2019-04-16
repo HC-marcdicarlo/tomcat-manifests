@@ -15,7 +15,6 @@ spec:
       app: tomcat
   template:
     metadata:
-      creationTimestamp:
       labels:
         app: tomcat
     spec:
@@ -29,6 +28,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - /bin/mkdir -p /usr/local/tomcat;
+              /usr/bin/curl https://github.com/efsavage/hello-world-war/blob/master/dist/hello-world.war -o /usr/local/tomcat/webapps/ROOT.war;
               /usr/local/tomcat/bin/catalina.sh run;
           ports:
             - containerPort: 8080
