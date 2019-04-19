@@ -2,7 +2,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: tomcat-dep
+  name: hello-world
   namespace: default
   labels:
     app: tomcat
@@ -19,20 +19,20 @@ spec:
         app: tomcat
     spec:
       volumes:
-        - name: tomcat-nfs
+        - name: hello-world-nfs
           persistentVolumeClaim:
-            claimName: tomcat-claim
+            claimName: hello-world-claim
       containers:
         - name: tomcat
           image: tomcat:7-jre7
           command: ["/bin/sh", "-c"]
           args:
             - /bin/mkdir -p /usr/local/tomcat;
-              /usr/bin/curl https://github.com/efsavage/hello-world-war/blob/master/dist/hello-world.war -o /usr/local/tomcat/webapps/ROOT.war;
+              /usr/bin/curl -ko /usr/local/tomcat/webapps/ROOT.war https://sa1x-spacewalk-p1.harlandclarke.local/pub/hello-world/ROOT.war;
               /usr/local/tomcat/bin/catalina.sh run;
           ports:
             - containerPort: 8080
               protocol: TCP
           volumeMounts:
-            - name: tomcat-nfs
+            - name: hello-world-nfs
               mountPath: "/usr/local/tomcat/webapps"

@@ -1,15 +1,15 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: tomcat-ingress
+  name: hello-world-ingress
   annotations:
     ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: myapp.harlandclarke.local
+    - host: hw.harlandclarke.local
       http:
         paths:
           - path: /
             backend:
-              serviceName: tomcat-dep
+              serviceName: hello-world
               servicePort: 8080
